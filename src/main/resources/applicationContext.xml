@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--
+        id:容器内是唯一的  Bean管理中类的名称
+        class:被管理bean的完全限定名
+        scope： scopt 属性
+            singleton bean对象被创建是单例的
+            prototype bean对象创建不是单利的
+        属性不会发生改变的类 被成为无状态的  无状态的一般都偶做成单利没事 这样可以减少内存压力
+        在默认情况下放在Bean管理的类都是创建都是单例的
+        如果scope属性值是singleton是 bean对象在容器启动时就被创建le
+        如果scope属性是prototype bean对象是在调用Bean时被调用
+
+        lazy-init属性是设置当bean对象是单例是创建对象是否在启动时被创建
+    -->
+    <bean id="userDaoImpl" class="com.mxiaixy.dao.impl.UserDaoImpl" />
+
+
+</beans>
