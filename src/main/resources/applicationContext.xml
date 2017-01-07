@@ -16,8 +16,91 @@
         如果scope属性是prototype bean对象是在调用Bean时被调用
 
         lazy-init属性是设置当bean对象是单例是创建对象是否在启动时被创建
+
+        别名 Alias:相当于给bean在起一个名称
     -->
     <bean id="userDaoImpl" class="com.mxiaixy.dao.impl.UserDaoImpl" />
+    <!--<alias name="userDaoImpl" alias="userDao"/>-->
+
+    <!--ioc控制反转 两种注入形式-->
+    <!--1.set注入-->
+    <!--
+        name:是UserServiceImpl中set方法后的方法首字母小写的名称
+        ref:需要注入的bean中的id名称
+    -->
+    <!--<bean id="userServiceImpl" class="com.mxiaixy.service.impl.UserServiceImpl">
+        &lt;!&ndash;1.注入方法&ndash;&gt;
+        &lt;!&ndash;<property name="userDao" ref="userDaoImpl"/>&ndash;&gt;
+        &lt;!&ndash;2.&ndash;&gt;
+        &lt;!&ndash;<property name="userDao" >&ndash;&gt;
+            &lt;!&ndash;<ref bean="userDaoImpl"/>&ndash;&gt;
+        &lt;!&ndash;</property>&ndash;&gt;
+        &lt;!&ndash;3. 这种注入方式适合 注入的类只在被注入类中被使用 其他类都使用不了
+           注入方式默认注入类被单例化
+        &ndash;&gt;
+        <property name="userDao" >
+            <bean class="com.mxiaixy.dao.impl.UserDaoImpl"/>
+        </property>
+    </bean>-->
+
+    <!--各种基本类型的注入
+        必须有一个无参数分构造方法
+    -->
+    <bean id="userServiceImpl" class="com.mxiaixy.service.impl.UserServiceImpl">
+
+        <property name="userDao" ref="userDaoImpl"/>
+        <property name="name" value="小梦梦"/>
+        <property name="age" value="23"/><!--age是Integer类型 的 在这里会被直接转换成Integer类型-->
+        <property name="list" >
+            <list>
+                <value>v1</value>
+                <value>v2</value>
+            </list>
+        </property>
+        <property name="set">
+            <set>
+                <value>521.000</value>
+                <value>520.000</value>
+            </set>
+        </property>
+        <property name="map">
+            <map>
+                <entry key="k1" value="v1"/>
+                <entry key="k2" value="v2"/>
+                <entry key="k3" value="v3"/>
+            </map>
+        </property>
+        <property name="properties">
+            <props>
+                <prop key="p1">v1</prop>
+                <prop key="p2">v2</prop>
+            </props>
+        </property>
+    </bean>
+    <!--2.构造方法的注入
+        放入spring容器的bean都应该有一个无参数的构造方法
+        而构造方法注入会覆盖其无参数的构造方法
+    -->
+    <bean id="userService" class="com.mxiaixy.service.impl.UserServiceImpl">
+        <!--1.通过传入参数名称查找-->
+        <!--<constructor-arg name="userDao" ref="userDaoImpl"/>-->
+        <!--2.通过传入参数的!!类型!!查找
+            缺陷; 当传入两个同类型的参数时就会报错了
+        -->
+        <constructor-arg type="com.mxiaixy.dao.UserDao" ref="userDaoImpl"/>
+        <!--3.通过参数下表找  从0开始-->
+        <!--<constructor-arg index="0" ref="userDaoImpl"/>-->
+    </bean>
+
+    <!--3.自动注入
+        byName:通过属性名在容器中寻找
+        byType:通过类型在容器中寻找
+        constructor:使用在构造方法注入  先通过byName寻找 如果找不到 在通过byType寻找
+    -->
+    <!--<bean id="userService" class="com.mxiaixy.service.impl.UserServiceImpl"-->
+                <!--autowire="byName"/>-->
+
+
 
 
 </beans>
