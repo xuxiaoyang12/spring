@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
+ * 通知类的测试
  * Created by Mxia on 2017/1/9.
  */
 public class AopAspectTestCase {

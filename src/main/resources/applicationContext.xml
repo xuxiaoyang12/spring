@@ -3,162 +3,36 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/aop
-        http://www.springframework.org/schema/aop/spring-aop.xsd">
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <!--基于注解的bean管理-->
+    <!--只需告诉spring你的bean从那些包中导入要管理的类可以
+        然后在需要的类头上添加注解
+    -->
+    <context:component-scan base-package="com.mxiaixy"/>
+
+
+    <!--如何实现注入-->
+    <!--基于注解的IOC-->
+    <!--只需在所需注入的类的头上添加@AutowiseJ即可-->
+
+
+    <!--基于注解的AOP-->
     <!--
-        id:容器内是唯一的  Bean管理中类的名称
-        class:被管理bean的完全限定名
-        scope： scopt 属性
-            singleton bean对象被创建是单例的
-            prototype bean对象创建不是单利的
-        属性不会发生改变的类 被成为无状态的  无状态的一般都偶做成单利没事 这样可以减少内存压力
-        在默认情况下放在Bean管理的类都是创建都是单例的
-        如果scope属性值是singleton是 bean对象在容器启动时就被创建le
-        如果scope属性是prototype bean对象是在调用Bean时被调用
-
-        lazy-init属性是设置当bean对象是单例是创建对象是否在启动时被创建
-
-        别名 Alias:相当于给bean在起一个名称
+        在通知类中加入所需要的注解
+        @Aspect:声明类是通知类
     -->
-    <bean id="userDaoImpl" class="com.mxiaixy.dao.impl.UserDaoImpl" />
-
-    <!--       Aop配置       -->
-    
-    <!--通知类-->
-    <bean id="myAspect" class="com.mxiaixy.aop.AopAspect"/>
-        <!--Aop配置-->
-    <aop:config>
-        <!--选择通知类-->
-        <aop:aspect ref="myAspect">
-            <!--配置切入点
-                expression：配置
-                第一个* ：返回值
-                后的 . . :此包下下以及其子包下所有
-                第二个* :  包中的所有类
-                第三个 * ：类中的所有方法
-                （..） : 方法中中的参数列表
-
-            -->
-            <aop:pointcut id="pt" expression="execution(* com.mxiaixy..*.*(..))"/>
-            <!--前置通知-->
-            <aop:before method="beforeAdvice" pointcut-ref="pt"/>
-            <!--后置通知-->
-            <aop:after-returning method="afterAdvice" pointcut-ref="pt"/>
-            <!--异常通知-->
-            <aop:after-throwing method="exceptionAdvice" pointcut-ref="pt"/>
-            <!--最终通知-->
-            <aop:after method="finallyAdvice" pointcut-ref="pt"/>
-            <!--环绕通知-->
-            <aop:around method="aroundAdvice" pointcut-ref="pt"/>
-         </aop:aspect>
-    </aop:config>
+    <aop:aspectj-autoproxy/>
 
 
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!--<alias name="userDaoImpl" alias="userDao"/>-->
-
-    <!--ioc控制反转 两种注入形式-->
-    <!--1.set注入-->
-    <!--
-        name:是UserServiceImpl中set方法后的方法首字母小写的名称
-        ref:需要注入的bean中的id名称
-    -->
-    <!--<bean id="userServiceImpl" class="com.mxiaixy.service.impl.UserServiceImpl">
-        &lt;!&ndash;1.注入方法&ndash;&gt;
-        &lt;!&ndash;<property name="userDao" ref="userDaoImpl"/>&ndash;&gt;
-        &lt;!&ndash;2.&ndash;&gt;
-        &lt;!&ndash;<property name="userDao" >&ndash;&gt;
-            &lt;!&ndash;<ref bean="userDaoImpl"/>&ndash;&gt;
-        &lt;!&ndash;</property>&ndash;&gt;
-        &lt;!&ndash;3. 这种注入方式适合 注入的类只在被注入类中被使用 其他类都使用不了
-           注入方式默认注入类被单例化
-        &ndash;&gt;
-        <property name="userDao" >
-            <bean class="com.mxiaixy.dao.impl.UserDaoImpl"/>
-        </property>
-    </bean>-->
-
-    <!--各种基本类型的注入
-        必须有一个无参数分构造方法
-    -->
-   <!-- <bean id="userServiceImpl" class="com.mxiaixy.service.impl.UserServiceImpl">
-
-        <property name="userDao" ref="userDaoImpl"/>
-        <property name="name" value="小梦梦"/>
-        <property name="age" value="23"/>&lt;!&ndash;age是Integer类型 的 在这里会被直接转换成Integer类型&ndash;&gt;
-        <property name="list" >
-            <list>
-                <value>v1</value>
-                <value>v2</value>
-            </list>
-        </property>
-        <property name="set">
-            <set>
-                <value>521.000</value>
-                <value>520.000</value>
-            </set>
-        </property>
-        <property name="map">
-            <map>
-                <entry key="k1" value="v1"/>
-                <entry key="k2" value="v2"/>
-                <entry key="k3" value="v3"/>
-            </map>
-        </property>
-        <property name="properties">
-            <props>
-                <prop key="p1">v1</prop>
-                <prop key="p2">v2</prop>
-            </props>
-        </property>
-    </bean>-->
-    <!--2.构造方法的注入
-        放入spring容器的bean都应该有一个无参数的构造方法
-        而构造方法注入会覆盖其无参数的构造方法
-    -->
-    <!--<bean id="userService" class="com.mxiaixy.service.impl.UserServiceImpl">-->
-        <!--1.通过传入参数名称查找-->
-        <!--<constructor-arg name="userDao" ref="userDaoImpl"/>-->
-        <!--2.通过传入参数的!!类型!!查找
-            缺陷; 当传入两个同类型的参数时就会报错了
-        -->
-        <!--<constructor-arg type="com.mxiaixy.dao.UserDao" ref="userDaoImpl"/>-->
-        <!--3.通过参数下表找  从0开始-->
-        <!--<constructor-arg index="0" ref="userDaoImpl"/>-->
-    <!--</bean>-->
-
-    <!--3.自动注入
-        byName:通过属性名在容器中寻找
-        byType:通过类型在容器中寻找
-        constructor:使用在构造方法注入  先通过byName寻找 如果找不到 在通过byType寻找
-    -->
-    <!--<bean id="userService" class="com.mxiaixy.service.impl.UserServiceImpl"-->
-                <!--autowire="byName"/>-->
-
+    <!--基于DI的单元测试-->
+    <!--每调用一次bean类中的方法 都会加上通知  ！！！！！！！！！！！-->
 
 
 
