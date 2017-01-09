@@ -14,6 +14,8 @@
   <!--依赖包版本-->
   <properties>
     <spring-version>4.3.3.RELEASE</spring-version>
+    <aop-version>4.3.3.RELEASE</aop-version>
+    <aspects-version>4.3.3.RELEASE</aspects-version>
   </properties>
   <dependencies>
     <dependency>
@@ -28,6 +30,18 @@
       <artifactId>spring-context</artifactId>
       <version>${spring-version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aop</artifactId>
+      <version>${aop-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aspects</artifactId>
+      <version>${aspects-version}</version>
+    </dependency>
+
+
 
   </dependencies>
   <build>

@@ -11,11 +11,12 @@ public class UserDaoImpl implements UserDao {
     }
 
     public void save() {
-        System.out.println("spring-userDaoImpl");
+
+        System.out.println("userDao.save....");
     }
 
     public void update() {
 
-        System.out.println("spring_update");
+        System.out.println("userDao.update...");
     }
 }
