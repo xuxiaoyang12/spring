@@ -18,8 +18,7 @@ public class AopAspectTestCase {
                 new ClassPathXmlApplicationContext("applicationContext.xml");
         //获取对象
         UserDao userDao = (UserDao) applicationContext.getBean("userDaoImpl");
-        userDao.update();
-        userDao.save();
+       // userDao.update();
     }
 
 }

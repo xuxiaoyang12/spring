@@ -33,8 +33,7 @@ public class UserDaoTestCase {
         //判段创建对象是否单例
         System.out.println(userDaoImpl==userDaoImpl2);
         //调用userdaoImpl中的方法
-        userDaoImpl.save();
-        userDaoImpl.update();
+       // userDaoImpl.update();
 
 
     }

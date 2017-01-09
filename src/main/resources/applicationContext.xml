@@ -11,6 +11,9 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <!--读取properties 配置文件-->
+    <context:property-placeholder location="config.properties"/>
+
     <!--基于注解的bean管理-->
     <!--只需告诉spring你的bean从那些包中导入要管理的类可以
         然后在需要的类头上添加注解
@@ -34,6 +37,17 @@
     <!--基于DI的单元测试-->
     <!--每调用一次bean类中的方法 都会加上通知  ！！！！！！！！！！！-->
 
+    <!--配置数据库连接池 数据源-->
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
 
+    <!--JDBCtemplate-->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
 
 </beans>

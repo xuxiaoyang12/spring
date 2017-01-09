@@ -29,7 +29,6 @@ public class UserServiceImpl2 implements UserService {
 
     public void update() {
 
-        userDao.update();
 
     }
 }
