@@ -1,5 +1,7 @@
 package com.mxiaixy.pojo;
 
+import org.springframework.stereotype.Repository;
+
 import java.io.Serializable;
 
 /**

@@ -4,12 +4,15 @@
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop.xsd
         http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd">
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <!--读取properties 配置文件-->
     <context:property-placeholder location="config.properties"/>
@@ -46,8 +49,65 @@
     </bean>
 
     <!--JDBCtemplate-->
-    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+    <!--<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">-->
+        <!--<property name="dataSource" ref="dataSource"/>-->
+    <!--</bean>-->
+
+    <!--添加事务管理器-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
     </bean>
+    <!--使用注解方式的事物声明-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!--myBatis sqlSessionFactory-->
+   <!-- <bean class="org.mybatis.spring.SqlSessionFactoryBean">
+        &lt;!&ndash;配置数据连接池（数据源）&ndash;&gt;
+        <property name="dataSource" ref="dataSource"/>
+        &lt;!&ndash;配置别名&ndash;&gt;
+        <property name="typeAliasesPackage" value="com.mxiaixy.pojo"/>
+        &lt;!&ndash;配置mapper读取路径 &ndash;&gt;
+        <property name="mapperLocations" value="classpath: mapper/*.xml"/>
+        &lt;!&ndash;配置其他项&ndash;&gt;
+        <property name="configuration">
+            <bean class="org.apache.ibatis.session.Configuration">
+                <property name="mapUnderscoreToCamelCase" value="true"/>
+            </bean>
+        </property>
+    </bean>
+
+    &lt;!&ndash;配置自动扫描mapper文件&ndash;&gt;
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.mxiaixy.mapper"/>
+    </bean>-->
+
+
+    <bean class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--添加数据源-->
+        <property name="dataSource" ref="dataSource"/>
+        <!--添加别名  spring会自动生成别名为所在类名-->
+        <property name="typeAliasesPackage" value="com.mxiaixy.pojo"/>
+        <!--mapper文件所在位置-->
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+        <!--其他位置-->
+        <property name="configuration">
+            <bean class="org.apache.ibatis.session.Configuration">
+                <!--配置可以转换数据库中的下划线为驼峰命名法-->
+                <property name="mapUnderscoreToCamelCase" value="true"/>
+            </bean>
+        </property>
+
+    </bean>
+    <!--添加 自动扫描mapper中的接口 自动创建其实现类 并添加到容器中-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--自动扫描com.mxiaixy.mapper下的接口 并创建其实现类并放入容器中 以便调用-->
+        <property name="basePackage" value="com.mxiaixy.mapper"/>
+    </bean>
+
+
+
+
+
+
 
 </beans>
