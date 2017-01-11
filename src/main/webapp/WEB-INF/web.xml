@@ -1,7 +1,23 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
 
-<web-app>
-  <display-name>Archetype Created Web Application</display-name>
+  <!--配置springmvc的中央控制器-->
+  <servlet>
+    <!--servlet-name的名字直接影响到@Controller的配置文件的命名-->
+    <servlet-name>mvn</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <!--当容器运行时自动加载  如果有多个会按照之的大小由小到大加载-->
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>mvn</servlet-name>
+    <!--url-pattern中设置成/ 表示所有的servlet都要经过中央控制器-->
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+
+
+
 </web-app>

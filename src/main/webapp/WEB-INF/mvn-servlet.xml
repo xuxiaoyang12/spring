@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--配置springmvc文件-->
+
+    <!--配置@Controller自动扫描
+        会自动在满足条件的包中扫描所有符合条件的controller并加入到容器中
+    -->
+    <context:component-scan base-package="com.mxiaixy.controller">
+        <!--再次进行限制-->
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!--配置视图解析器-->
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <!--el表达式-->
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <!--配置跳转url前准-->
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <!--后缀-->
+        <property name="suffix" value=".jsp"/>
+
+    </bean>
+
+
+
+
+
+</beans>
